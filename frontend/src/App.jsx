@@ -8,29 +8,26 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 import Header from "./components/Header.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import { nodes } from "./graph";
 
-// Fix marker icons
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+// 🔴 RED MARKER ICON
+const RedIcon = L.icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
 });
 
-// Node coordinates
-const nodeCoords = {
-  A: [17.3850, 78.4867],
-  B: [17.4474, 78.3762],
-  C: [17.3616, 78.4747],
-  D: [17.4399, 78.4983],
-  E: [17.4126, 78.2679],
-  F: [17.4573, 78.5000],
-};
+// Convert nodes → coordinates
+const nodeCoords = Object.fromEntries(
+  Object.entries(nodes).map(([key, val]) => [
+    key,
+    [val.lat, val.lng],
+  ])
+);
 
 function FitBounds({ routeCoords }) {
   const map = useMap();
@@ -45,24 +42,32 @@ function FitBounds({ routeCoords }) {
 function App() {
   const center = [17.3850, 78.4867];
 
-  const [start, setStart] = useState("A");
-  const [end, setEnd] = useState("D");
+  const nodeKeys = Object.keys(nodeCoords);
+
+  const [start, setStart] = useState(nodeKeys[0] || "");
+  const [end, setEnd] = useState(nodeKeys[1] || "");
+
   const [path, setPath] = useState([]);
   const [cost, setCost] = useState(null);
   const [routeCoords, setRouteCoords] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleFindRoute = async () => {
+    if (!start || !end) return;
+
     setLoading(true);
+
     try {
       const res = await fetch(
         `http://localhost:5000/shortest?start=${start}&end=${end}`
       );
+
       const data = await res.json();
 
       if (!data.path || data.path.length < 2) {
         alert("No valid route found");
         setRouteCoords([]);
+        setLoading(false);
         return;
       }
 
@@ -71,9 +76,12 @@ function App() {
 
       const coordsString = data.path
         .map((node) => {
-          const [lat, lng] = nodeCoords[node];
+          const coord = nodeCoords[node];
+          if (!coord) return null;
+          const [lat, lng] = coord;
           return `${lng},${lat}`;
         })
+        .filter(Boolean)
         .join(";");
 
       const osrmRes = await fetch(
@@ -83,18 +91,25 @@ function App() {
       const osrmData = await osrmRes.json();
 
       if (!osrmData.routes || osrmData.routes.length === 0) {
-        const fallback = data.path.map((node) => nodeCoords[node]);
+        const fallback = data.path
+          .map((node) => nodeCoords[node])
+          .filter(Boolean);
+
         setRouteCoords(fallback);
+        setLoading(false);
         return;
       }
 
       const route = osrmData.routes[0].geometry.coordinates;
+
       const formattedRoute = route.map(([lng, lat]) => [lat, lng]);
 
       setRouteCoords(formattedRoute);
+
     } catch (err) {
-      console.error(err);
+      console.error("Route error:", err);
     }
+
     setLoading(false);
   };
 
@@ -103,17 +118,15 @@ function App() {
       await fetch("http://localhost:5000/update");
       handleFindRoute();
     } catch (err) {
-      console.error(err);
+      console.error("Traffic update error:", err);
     }
   };
 
   return (
     <div className="w-full h-screen flex flex-col bg-gradient-to-br from-gray-900 via-slate-900 to-black text-white">
 
-      {/* HEADER */}
       <Header />
 
-      {/* MAIN */}
       <div className="flex flex-1 overflow-hidden">
 
         <Sidebar
@@ -126,36 +139,45 @@ function App() {
           path={path}
           cost={cost}
           loading={loading}
+          nodes={nodeKeys}
         />
 
-        {/* MAP */}
         <div className="flex-1 relative">
-          <MapContainer
-            center={center}
-            zoom={12}
-            className="h-full w-full"
-          >
+          <MapContainer center={center} zoom={12} className="h-full w-full">
+
             <TileLayer
               attribution="&copy; OpenStreetMap"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
+            {/* 🔵 BLUE ROUTE */}
             {routeCoords.length > 0 && (
               <>
-                <Polyline positions={routeCoords} color="#22c55e" weight={10} opacity={0.2} />
-                <Polyline positions={routeCoords} color="#22c55e" weight={5} />
+                <Polyline
+                  positions={routeCoords}
+                  color="#3b82f6"
+                  weight={10}
+                  opacity={0.2}
+                />
+                <Polyline
+                  positions={routeCoords}
+                  color="#2563eb"
+                  weight={5}
+                />
               </>
             )}
 
+            {/* 🔴 START MARKER */}
             {routeCoords.length > 0 && (
-              <Marker position={routeCoords[0]}>
-                <Popup>Start</Popup>
+              <Marker position={routeCoords[0]} icon={RedIcon}>
+                <Popup>Start: {start}</Popup>
               </Marker>
             )}
 
+            {/* 🔴 END MARKER */}
             {routeCoords.length > 0 && (
-              <Marker position={routeCoords[routeCoords.length - 1]}>
-                <Popup>End</Popup>
+              <Marker position={routeCoords[routeCoords.length - 1]} icon={RedIcon}>
+                <Popup>End: {end}</Popup>
               </Marker>
             )}
 
