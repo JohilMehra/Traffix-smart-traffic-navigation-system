@@ -1,75 +1,69 @@
-#🚦 Smart Traffic Navigation System
+# 🚦 Smart Traffic Navigation System
 
-📌 Project Overview
+## 📖 Overview
 
-The Smart Traffic Navigation System is a graph-based web application that simulates real-time route optimization similar to modern navigation systems like Google Maps.
+The **Smart Traffic Navigation System** is a full-stack web application that simulates real-time route optimization similar to modern navigation systems like Google Maps.
 
-It calculates the shortest path between locations using Dijkstra’s Algorithm, dynamically updates traffic conditions by modifying edge weights, and visualizes routes on an interactive map.
-
----
-
-🎯 Features
-
-- 📍 Select Start and End Nodes
-- 🧠 Shortest Path using Dijkstra’s Algorithm
-- 🔄 Dynamic Traffic Updates (Edge Weight Changes)
-- 🗺️ Real-world Map Integration (OpenStreetMap + Leaflet)
-- 🚗 Real Road Routing using OSRM API
-- 🎨 Modern UI with React + Tailwind CSS
-- 📊 Route visualization with highlighted paths
-- 📌 Start & End markers on map
-- ⚡ Fast and interactive user experience
+It uses **Dijkstra’s Algorithm** to compute the shortest path between locations, dynamically updates traffic conditions, and visualizes routes on an interactive map.
 
 ---
 
-🧠 Core Concepts Used
+## ✨ Key Features
 
-- Graph Data Structure (Adjacency List)
-- Dijkstra’s Algorithm (Shortest Path)
-- Priority Queue (Min Heap)
-- REST API Architecture
-- Real-time system simulation
+- Shortest path using Dijkstra’s Algorithm  
+- Dynamic traffic updates  
+- Interactive map (OpenStreetMap + Leaflet)  
+- Real road routing (OSRM API)  
+- Modern UI with React + Tailwind CSS  
+- Route highlighting with markers  
+- Fast and responsive  
 
 ---
 
-🏗️ Tech Stack
+## 🧠 Technical Concepts
 
-Frontend
+- Graph (Adjacency List)  
+- Dijkstra’s Algorithm  
+- Priority Queue (Min Heap)  
+- REST APIs  
+- Real-time simulation  
 
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
 - React (Vite)
 - Tailwind CSS
 - React-Leaflet
 - OpenStreetMap
 
-Backend
-
+### Backend
 - Node.js
 - Express.js
 
-APIs Used
-
+### API
 - OSRM (Open Source Routing Machine)
 
 ---
 
-🗂️ Project Structure
-
+## 📁 Project Structure
 SmartTrafficNavigation/
 │
 ├── backend/
-│   ├── graph.js
-│   ├── dijkstra.js
-│   ├── server.js
+│ ├── graph.js
+│ ├── dijkstra.js
+│ ├── server.js
 │
 ├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Header.jsx
-│   │   │   ├── Sidebar.jsx
-│   │   │   ├── RouteInfo.jsx
-│   │   │
-│   │   ├── App.jsx
-│   │   ├── index.css
+│ ├── src/
+│ │ ├── components/
+│ │ │ ├── Header.jsx
+│ │ │ ├── Sidebar.jsx
+│ │ │ ├── RouteInfo.jsx
+│ │ │
+│ │ ├── App.jsx
+│ │ ├── index.css
 │
 └── README.md
 
@@ -145,18 +139,5 @@ GET /update
 - Real-world simulation of navigation systems
 - Interactive UI with map visualization
 - Clean and scalable architecture
-
----
-
-🚀 Future Enhancements
-
-- 📱 Mobile responsive design
-- 📊 Real-time traffic data integration
-- 🧭 Multiple alternate routes
-- 🚗 Moving vehicle animation
-
----
-
-If you like this project, consider giving it a ⭐ on GitHub!
 
 ---
