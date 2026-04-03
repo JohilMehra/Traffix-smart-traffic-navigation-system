@@ -48,24 +48,27 @@ It uses **Dijkstra’s Algorithm** to compute the shortest path between location
 ---
 
 ## 📁 Project Structure
+
+```
 SmartTrafficNavigation/
 │
 ├── backend/
-│ ├── graph.js
-│ ├── dijkstra.js
-│ ├── server.js
+│   ├── graph.js
+│   ├── dijkstra.js
+│   ├── server.js
 │
 ├── frontend/
-│ ├── src/
-│ │ ├── components/
-│ │ │ ├── Header.jsx
-│ │ │ ├── Sidebar.jsx
-│ │ │ ├── RouteInfo.jsx
-│ │ │
-│ │ ├── App.jsx
-│ │ ├── index.css
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Header.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── RouteInfo.jsx
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── index.css
 │
 └── README.md
+```
 
 ---
 
