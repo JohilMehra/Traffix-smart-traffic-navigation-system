@@ -77,6 +77,7 @@ SmartTrafficNavigation/
 🔧 1. Clone Repository
 
 git clone https://github.com/JohilMehra/Traffix-smart-traffic-navigation-system.git
+
 cd SmartTrafficNavigation
 
 ---
