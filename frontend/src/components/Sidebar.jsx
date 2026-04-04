@@ -10,6 +10,7 @@ export default function Sidebar({
   path,
   cost,
   loading,
+  nodes, // ✅ RECEIVE NODES FROM APP
 }) {
   return (
     <div className="w-96 p-8 flex flex-col gap-7 
@@ -34,7 +35,7 @@ export default function Sidebar({
             value={start}
             onChange={(e) => setStart(e.target.value)}
           >
-            {["A","B","C","D","E","F"].map(n => (
+            {nodes.map(n => (   // ✅ DYNAMIC NODES
               <option key={n} className="text-black">{n}</option>
             ))}
           </select>
@@ -47,7 +48,7 @@ export default function Sidebar({
             value={end}
             onChange={(e) => setEnd(e.target.value)}
           >
-            {["A","B","C","D","E","F"].map(n => (
+            {nodes.map(n => (   // ✅ DYNAMIC NODES
               <option key={n} className="text-black">{n}</option>
             ))}
           </select>
@@ -62,14 +63,14 @@ export default function Sidebar({
           onClick={handleFindRoute}
           className="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.03] transition shadow-md"
         >
-          🚀 Find Route
+          Find Route
         </button>
 
         <button
           onClick={handleUpdateTraffic}
           className="w-full py-2 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 hover:scale-[1.03] transition shadow-md text-black font-semibold"
         >
-          🔄 Update Traffic
+          Update Traffic
         </button>
 
       </div>
