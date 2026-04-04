@@ -63,14 +63,14 @@ export default function Sidebar({
           onClick={handleFindRoute}
           className="w-full py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.03] transition shadow-md"
         >
-          🚀 Find Route
+          Find Route
         </button>
 
         <button
           onClick={handleUpdateTraffic}
           className="w-full py-2 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 hover:scale-[1.03] transition shadow-md text-black font-semibold"
         >
-          🔄 Update Traffic
+          Update Traffic
         </button>
 
       </div>

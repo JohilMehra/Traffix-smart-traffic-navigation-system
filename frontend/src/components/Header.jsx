@@ -5,9 +5,9 @@ export default function Header() {
 
       {/* LEFT */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">🚦</span>
+        <span className="text-2xl"></span>
         <h1 className="text-2xl md:text-3xl font-semibold tracking-wide">
-          Smart Traffic Navigation
+          <p>Traffix</p>
         </h1>
       </div>
 
